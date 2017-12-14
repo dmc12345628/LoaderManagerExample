@@ -19,8 +19,8 @@ import fr.lr.iut.transportresolver.models.Transport;
 /**
  * The Transport Adapter View holder
  *
- * @author Daniel Medina
- * @since /12/2017
+ * @author Jesús Daniel Medina Cruz
+ * @since 10/12/2017
  */
 
 public class TransportHolder {

@@ -24,7 +24,7 @@ import fr.lr.iut.transportresolver.providers.PC;
 /**
  * The Main Activity
  *
- * @author Daniel Medina
+ * @author Jesús Daniel Medina Cruz
  * @since 10/12/2017
  */
 

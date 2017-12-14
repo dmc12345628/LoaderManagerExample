@@ -15,7 +15,7 @@ import fr.lr.iut.transportresolver.models.Transport;
 /**
  * The Transport RecyclerView adapter
  *
- * @author Daniel Medina
+ * @author Jesús Daniel Medina Cruz
  * @since 10/12/2017
  */
 
