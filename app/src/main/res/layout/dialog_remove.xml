@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_dialog"
+    android:minWidth="@dimen/dialog_width"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Remove Transport ?"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginRight="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:text="CANCELAR"
+            android:textColor="@color/md_blue_500"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginRight="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:text="REMOVE"
+            android:textColor="@color/md_red_500"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,23 +1,22 @@
 package fr.lr.iut.transportresolver.activities;
 
-import android.content.ContentValues;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.thebluealliance.spectrum.SpectrumDialog;
-
-import java.util.ArrayList;
+import android.view.View;
+import android.widget.ListView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.lr.iut.transportresolver.R;
+import fr.lr.iut.transportresolver.adapters.TransportCursorAdapter;
+import fr.lr.iut.transportresolver.dialogs.RemoveDialog;
+import fr.lr.iut.transportresolver.models.DBC;
 import fr.lr.iut.transportresolver.models.Transport;
 import fr.lr.iut.transportresolver.providers.PC;
 
@@ -28,15 +27,18 @@ import fr.lr.iut.transportresolver.providers.PC;
  * @since 10/12/2017
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    // widgets
-    @BindView(R.id.edt_number)
-    EditText edtNumber;
-    @BindView(R.id.edt_capacity)
-    EditText edtCapacity;
-    @BindView(R.id.edt_color)
-    EditText edtColor;
+    final static String TAG = "MainActivity";
+    public final static int ADD_TRANSPORT_REQ = 100;
+    public final static int UPDATE_TRANSPORT_REQ = 101;
+    public final static String REQ_TYPE = "req_type";
+    public final static String TRANSPORT_ID = "transport_id";
+    private static final int CUR_LOADER = 1;
+
+    @BindView(R.id.lsv_transports)
+    ListView lstTransports;
+    private TransportCursorAdapter transportAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,68 +46,79 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        transportAdapter = new TransportCursorAdapter(this, null);
+
+        lstTransports.setAdapter(transportAdapter);
+
+        getLoaderManager().initLoader(CUR_LOADER, null, this);
     }
 
-    @OnClick(R.id.edt_color)
-    public void showColorPicker() {
-        SpectrumDialog.Builder colorPicker = new SpectrumDialog.Builder(this);
-        colorPicker.setColors(R.array.md_colors);
-        colorPicker.setSelectedColorRes(R.color.md_blue_500);
-        colorPicker.setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+    public void showTransportActivity(Transport transport) {
+        Intent intent = new Intent(this,
+                TransportActivity.class);
+        intent.putExtra(REQ_TYPE, UPDATE_TRANSPORT_REQ);
+        intent.putExtra(TRANSPORT_ID, transport.id);
+        startActivityForResult(intent, UPDATE_TRANSPORT_REQ);
+    }
+
+    public void showRemoveDialog(final Transport transport) {
+        final RemoveDialog dialog = new RemoveDialog(this);
+        dialog.setRemoveAction(new View.OnClickListener() {
             @Override
-            public void onColorSelected(boolean positiveResult, int color) {
-                edtColor.setText("#" + Integer.toHexString(color));
+            public void onClick(View view) {
+                getContentResolver().delete(PC.Transport.TRANSPORT_ITEM, "" + transport.id, null);
+                dialog.dismiss();
             }
         });
-        colorPicker.build().show(getSupportFragmentManager(), "Color Picker");
+        dialog.show();
     }
 
-    // Declaration des méthodes pour accéder au fourniseur TransportProvider
     @OnClick(R.id.btn_add_a_new_transport)
-    public void addTransport() {
-        ContentValues contentValues = new ContentValues();
+    public void addANewTransport() {
+        Intent intent = new Intent(this,
+                TransportActivity.class);
+        intent.putExtra(REQ_TYPE, ADD_TRANSPORT_REQ);
 
-        contentValues.put("number", edtNumber.getText().toString());
-        contentValues.put("capacity", edtCapacity.getText().toString());
-        contentValues.put("color", edtColor.getText().toString());
-
-        Uri uri = getContentResolver().insert(PC.Transport.TRANSPORT_ITEM, contentValues);
-
-        Snackbar.make(findViewById(android.R.id.content), "Transport App : " +
-                uri.toString() + " inserted", Toast.LENGTH_SHORT).show();
-
-        edtNumber.setText("");
-        edtCapacity.setText("");
-        edtColor.setText("");
+        startActivityForResult(intent, ADD_TRANSPORT_REQ);
     }
 
-    @OnClick(R.id.btn_show_all_transports)
-    public void showAllTransports() {
-        Cursor cursor = getContentResolver().query(PC.Transport.TRANSPORT_DIR, null, null, null, "number");
-        String result = "Transport App Results: ";
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        TransportsActivity.TRANSPORTS = new ArrayList<>();
-        if (!cursor.moveToFirst())
-            Snackbar.make(findViewById(android.R.id.content), result + " no content yet!",
-                    Toast.LENGTH_SHORT).show();
-        else
-            do {
-                String number = cursor.getString(0);
-                int capacity = cursor.getInt(1);
-                String color = cursor.getString(2);
-
-                Transport transport = new Transport(number, capacity, color);
-                TransportsActivity.TRANSPORTS.add(transport);
-            } while (cursor.moveToNext());
-
-        Intent intent = new Intent(this, TransportsActivity.class);
-        startActivity(intent);
+        if (requestCode == ADD_TRANSPORT_REQ) {
+            if (resultCode == RESULT_OK) {
+            } else if (resultCode == RESULT_CANCELED) {
+            }
+        } else if (requestCode == UPDATE_TRANSPORT_REQ) {
+            if (resultCode == RESULT_OK) {
+            } else if (resultCode == RESULT_CANCELED) {
+            }
+        }
     }
 
-    @OnClick(R.id.btn_delete_all_transports)
-    public void deleteAllTransports() {
-        int count = getContentResolver().delete(PC.Transport.TRANSPORT_DIR, null, null);
-        String countNum = "Transport App : " + count + " records were deleted.";
-        Snackbar.make(findViewById(android.R.id.content), countNum, Toast.LENGTH_SHORT).show();
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
+        switch (loaderId) {
+            case CUR_LOADER:
+                CursorLoader cursorLoader = new CursorLoader(this,
+                        PC.Transport.TRANSPORT_DIR,
+                        DBC.Transport.PROJECTION,
+                        null, null, null);
+                return cursorLoader;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+        transportAdapter.changeCursor(c);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        transportAdapter.changeCursor(null);
     }
 }

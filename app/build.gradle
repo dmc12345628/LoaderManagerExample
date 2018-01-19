@@ -36,6 +36,13 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-// Spectrum - ColorPicker
+    // Spectrum - ColorPicker
     compile 'com.thebluealliance:spectrum:0.7.1'
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+
+    // floating buttons
+    compile 'com.github.clans:fab:1.6.2'
 }

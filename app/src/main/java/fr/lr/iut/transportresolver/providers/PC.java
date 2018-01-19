@@ -16,5 +16,11 @@ public abstract class PC {
                 URL = "content://" + PROVIDER_NAME + "/transports";
         public static final Uri TRANSPORT_ITEM = Uri.parse(URL);
         public static final Uri TRANSPORT_DIR = Uri.parse(URL + "/*");
+
+        public static final Uri CONTENT_URI = Uri.parse(URL);
+
+        public static final int
+                TRANSPORT_ITEM_MATCHER = 1,
+                TRANSPORT_DIR_MATCHER = 2;
     }
 }

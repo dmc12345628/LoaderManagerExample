@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ite_edit"
+        android:title="Edit Transport" />
+    <item
+        android:id="@+id/ite_delete"
+        android:title="Delete Transport" />
+</menu>

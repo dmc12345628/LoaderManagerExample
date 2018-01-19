@@ -5,77 +5,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".activities.MainActivity">
+    tools:context="fr.lr.iut.transportresolver.activities.TransportActivity">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_number"
+    <RelativeLayout
+        android:id="@+id/rel_action_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp">
 
-        <EditText
-            android:id="@+id/edt_number"
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Number"
-            android:inputType="textPersonName|textCapWords"
-            android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@mipmap/ic_launcher"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_capacity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
-
-        <EditText
-            android:id="@+id/edt_capacity"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txv_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="capacity"
-            android:inputType="number"
-            android:singleLine="true" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="72dp"
+            android:layout_toRightOf="@+id/imb_back"
+            android:text="Add Transport"
+            android:textColor="@color/md_text_white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    </android.support.design.widget.TextInputLayout>
+    </RelativeLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_color"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edt_color"
+        <ListView
+            android:id="@+id/lsv_transports"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btn_add_a_new_transport"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="Color"
-            android:singleLine="true" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/btn_add_a_new_transport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="ADD A NEW TRANSPORT" />
-
-    <Button
-        android:id="@+id/btn_show_all_transports"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="SHOW ALL TRANSPORTS" />
-
-    <Button
-        android:id="@+id/btn_delete_all_transports"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="DELETE ALL TRANSPORTS" />
-
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:elevation="8dp"
+            android:src="@drawable/ic_add"
+            app:fab_colorNormal="@color/md_pink_A400"
+            app:fab_colorPressed="@color/md_pink_A200"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_hideAnimation="@anim/fab_scale_down"
+            app:fab_label="Viajar"
+            app:fab_shadowColor="#66000000"
+            app:fab_shadowRadius="4dp"
+            app:fab_shadowXOffset="1dp"
+            app:fab_shadowYOffset="3dp"
+            app:fab_showAnimation="@anim/fab_scale_up"
+            app:fab_showShadow="true"
+            app:fab_size="normal" />
+    </RelativeLayout>
 </LinearLayout>
